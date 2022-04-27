@@ -2,6 +2,7 @@ import time
 from datetime import datetime
 from django.shortcuts import render
 from rest_framework import status
+from rest_framework.permissions import IsAuthenticated
 from rest_framework.views import APIView
 from rest_framework.response import Response
 from rest_framework.status import HTTP_201_CREATED, HTTP_400_BAD_REQUEST
@@ -11,6 +12,7 @@ from .models import Posts
 
 # Create your views here.
 class PostView(APIView):
+    permission_classes = [IsAuthenticated]
     def get(self, request):
         user = request.user
         data = Posts.objects.filter(user=user)
@@ -98,6 +100,5 @@ class PostView(APIView):
 
         # in case the post was not found
         except Posts.DoesNotExist:
-            print('Hiii')
-            time.sleep(10)
+
             return Response(data={'error': {'message': 'post was not found'}}, status=status.HTTP_404_NOT_FOUND)
