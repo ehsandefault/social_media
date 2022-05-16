@@ -12,7 +12,7 @@ class User(AbstractUser):
     username = models.CharField(unique=True, max_length=40)
     email = models.EmailField(unique=True)
     bio = models.CharField(max_length=200, blank=True)
-    profileImage = models.CharField(max_length=1000,
+    profile_image = models.CharField(max_length=1000,
                                     default="https://res.cloudinary.com/dgknrkenk/image/upload/v1579667401/uwjxuqzu4baspaqybrmp.png")
 
     created_on = models.DateTimeField(auto_now_add=True)
