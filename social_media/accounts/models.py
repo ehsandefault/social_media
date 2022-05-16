@@ -14,7 +14,7 @@ class User(AbstractUser):
     bio = models.CharField(max_length=200, blank=True)
     profileImage = models.CharField(max_length=1000,
                                     default="https://res.cloudinary.com/dgknrkenk/image/upload/v1579667401/uwjxuqzu4baspaqybrmp.png")
-    follower = models.IntegerField(default=0)
+
     created_on = models.DateTimeField(auto_now_add=True)
     updated_on = models.DateTimeField(auto_now=True)
     full_name = models.CharField(blank=False)
