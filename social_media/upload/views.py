@@ -6,7 +6,7 @@ from rest_framework.permissions import IsAuthenticated
 from rest_framework.views import APIView
 from rest_framework.response import Response
 from rest_framework.status import HTTP_201_CREATED, HTTP_400_BAD_REQUEST
-from .serializer import PostSerializer
+from .serializer import CreatePostSerializer,PostSerializer
 from .models import Posts
 
 
@@ -16,9 +16,8 @@ class PostView(APIView):
     def get(self, request):
         user = request.user
         data = Posts.objects.filter(user=user)
-        print(data)
+
         serializer = PostSerializer(data, many=True)
-        print(serializer.data)
         return Response(data=serializer.data, status=status.HTTP_200_OK)
 
     def post(self, request):
@@ -36,7 +35,7 @@ class PostView(APIView):
             'user': user.id,
         }
 
-        serializer = PostSerializer(data=data)
+        serializer = CreatePostSerializer(data=data)
         print(data)
 
         # make sure the data given to the user is valid
@@ -91,7 +90,7 @@ class PostView(APIView):
                 post_content=post.content
             post.title=post_title
             post.content=post_content
-            serializer=PostSerializer(post,data=data)
+            serializer=CreatePostSerializer(post, data=data)
             if serializer.is_valid():
                 serializer.save()
                 return Response(serializer.data, status=status.HTTP_200_OK)

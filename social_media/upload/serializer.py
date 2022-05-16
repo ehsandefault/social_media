@@ -5,10 +5,9 @@ from rest_framework import serializers
 from .models import Posts
 
 
-class PostSerializer(serializers.ModelSerializer):
+class CreatePostSerializer(serializers.ModelSerializer):
     created_on = serializers.SerializerMethodField('time_format')
     username = serializers.SerializerMethodField('display_username')
-
 
     class Meta:
         model = Posts
@@ -41,4 +40,8 @@ class PostSerializer(serializers.ModelSerializer):
         return new_time
 
 
-
+class PostSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Posts
+        fields = ['id', 'user', 'content', 'created_on'
+                 ,'title']

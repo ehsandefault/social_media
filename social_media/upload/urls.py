@@ -7,4 +7,5 @@ urlpatterns = [
     path('edit/<post_id>',PostView.as_view(),name='edit_post'),
     path('delete/<post_id>',PostView.as_view(),name='delete_post'),
 
+
 ]
