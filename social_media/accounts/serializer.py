@@ -5,6 +5,7 @@ from datetime import datetime
 
 from upload.models import Posts
 from upload.serializer import PostSerializer
+from reaction.serializer import FollowSerializer
 
 
 class AccountRegistrationSerializer(serializers.ModelSerializer):
@@ -17,8 +18,8 @@ class AccountRegistrationSerializer(serializers.ModelSerializer):
             username=validated_data.get('username'),
             email=validated_data.get('email')
         )
-        user.created_on=datetime.now()
-        user.update_on=datetime.now()
+        user.created_on = datetime.now()
+        user.update_on = datetime.now()
         user.set_password(validated_data.get('password'))
         user.save()
         return user
@@ -34,13 +35,13 @@ class AccountRegistrationSerializer(serializers.ModelSerializer):
 
 
 class AccountSerializer(serializers.ModelSerializer):
-    posts = serializers.SerializerMethodField('get_user_posts')
-
+    posts = PostSerializer(many=True, source='author')
+    following=FollowSerializer(many=True, source='followed_user')
+    followed_by=FollowSerializer(many=True, )
     class Meta:
         model = User
-        fields = ['id','username', 'email', 'date_joined','posts']
-
-    def get_user_posts(self,user):
-        post = Posts.objects.filter(user=user.id)
-        serializer = PostSerializer(post, many=True)
-        return serializer.data
+        fields = ['username', 'email', 'posts','following','followed_by']
+class ProfileSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = User
+        fields = ['username']
