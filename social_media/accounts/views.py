@@ -55,7 +55,7 @@ class LoginView(APIView):
 
 class SignupView(APIView):
     def post(self, request):
-        serializer = AccountRegistrationSerializer(request.data)
+        serializer = AccountRegistrationSerializer(data=request.data)
         if serializer.is_valid():
             new_user = serializer.save()
             Token.objects.create(user=new_user)

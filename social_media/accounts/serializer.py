@@ -26,8 +26,6 @@ class AccountRegistrationSerializer(serializers.ModelSerializer):
         instance.username = validated_data.get('username')
         instance.email = validated_data.get('email')
         instance.bio = validated_data.get('bio')
-        instance.full_name = validated_data.get('full_name')
-        instance.update_on = datetime.now()
         instance.save()
         return instance
 
