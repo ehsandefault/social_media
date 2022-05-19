@@ -18,8 +18,6 @@ class AccountRegistrationSerializer(serializers.ModelSerializer):
             username=validated_data.get('username'),
             email=validated_data.get('email')
         )
-        user.created_on = datetime.now()
-        user.updated_on = datetime.now()
         user.set_password(validated_data.get('password'))
         user.save()
         return user
