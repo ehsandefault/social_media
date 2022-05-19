@@ -13,12 +13,11 @@ class User(AbstractUser):
     username = models.CharField(unique=True, max_length=40)
     email = models.EmailField(unique=True)
     bio = models.CharField(max_length=200, blank=True)
-    profileImage = models.CharField(max_length=1000,
-                                    default=PROFILE_AVTAR)
+    profile_image = models.CharField(max_length=1000,
+                                     default=PROFILE_AVTAR)
     follower = models.IntegerField(default=0)
     created_on = models.TimeField()
     updated_on = models.TimeField()
 
     def __str__(self):
         return self.username
-
