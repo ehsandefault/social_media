@@ -20,7 +20,7 @@ class UserDetailsView(APIView):
             return Response(data={'error': {'message': 'user not found'}}, status=status.HTTP_404_NOT_FOUND)
 
 
-class Login(APIView):
+class LoginView(APIView):
     def post(self, request):
         data = request.data
         email = data.get('email', None)
@@ -30,11 +30,10 @@ class Login(APIView):
 
         # check if a user with such username or email exist
         user = None
-        if User.filter(username=email).exists():
-            user = User.objects.get(username=email)
-        if User.filter(email=email).exists():
+        if User.objects.filter(email=email).exists():
             user = User.objects.get(email=email)
-        if user is None:
+            
+        else:
             return Response({'error': 'Such user was not found'},
                             status=status.HTTP_404_NOT_FOUND)
         username = user.username
@@ -76,7 +75,7 @@ class SignupView(APIView):
         return Response(data, status=status.HTTP_400_BAD_REQUEST)
 
 
-class ResetPassword(APIView):
+class ResetPasswordView(APIView):
     def post(self, request):
         data = request.data
         new_password = data.get('new_password', None)
