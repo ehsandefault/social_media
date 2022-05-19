@@ -55,10 +55,7 @@ class LoginView(APIView):
 
 class SignupView(APIView):
     def post(self, request):
-        data = request.data
-        print(data)
-        serializer = AccountRegistrationSerializer(data=data)
-        data = {}
+        serializer = AccountRegistrationSerializer(request.data)
         if serializer.is_valid():
             new_user = serializer.save()
             Token.objects.create(user=new_user)
@@ -84,7 +81,7 @@ class ResetPasswordView(APIView):
         if new_password is None or old_password is None or email is None:
             return Response(data={'message': 'This was an invalid request'}, status=status.HTTP_400_BAD_REQUEST)
         current_user = None
-        if User.filter(email=email).exists():
+        if User.objects.filter(email=email).exists():
             current_user = User.objects.get(email=email)
         else:
             return Response(data={'message': 'This user does not exist'}, status=status.HTTP_404_NOT_FOUND)
