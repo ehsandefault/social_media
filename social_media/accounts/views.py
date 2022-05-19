@@ -12,7 +12,7 @@ from .models import User
 class UserDetailsView(APIView):
 
     def get(self, request, username):
-        if User.filter(username=username).exists():
+        if User.objects.filter(username=username).exists():
             user = User.objects.get(username=username)
             account_serializer = AccountSerializer(instance=user)
             return Response(account_serializer.data)
