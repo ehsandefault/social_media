@@ -25,14 +25,14 @@ class LoginView(APIView):
         data = request.data
         email = data.get('email', None)
         password = data.get("password", None)
-        if email is None or password is None:
+        if not email or not password:
             return Response(status=status.HTTP_400_BAD_REQUEST)
 
         # check if a user with such username or email exist
         user = None
         if User.objects.filter(email=email).exists():
             user = User.objects.get(email=email)
-            
+
         else:
             return Response({'error': 'Such user was not found'},
                             status=status.HTTP_404_NOT_FOUND)
@@ -78,7 +78,7 @@ class ResetPasswordView(APIView):
         new_password = data.get('new_password', None)
         old_password = data.get('password', None)
         email = data.get('email', None)
-        if new_password is None or old_password is None or email is None:
+        if not new_password or not old_password or not email:
             return Response(data={'message': 'This was an invalid request'}, status=status.HTTP_400_BAD_REQUEST)
         current_user = None
         if User.objects.filter(email=email).exists():
