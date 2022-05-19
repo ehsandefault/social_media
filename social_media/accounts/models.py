@@ -15,7 +15,7 @@ class User(AbstractUser):
     bio = models.CharField(max_length=200, blank=True)
     profile_image = models.CharField(max_length=1000,
                                      default=PROFILE_AVTAR)
-    follower = models.IntegerField(default=0)
+
     created_on = models.TimeField()
     updated_on = models.TimeField()
 
