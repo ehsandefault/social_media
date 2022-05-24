@@ -16,12 +16,10 @@ class UploadView(APIView):
     permission_classes = [IsAuthenticated]
 
     def post(self, request):
-        user = request.user
-        print(user.username)
         data = {
             'content': request.data['content'],
             'title': request.data['title'],
-            'user': user.id,
+            'user': request.user.id,
         }
 
         serializer = CreatePostSerializer(data=data)
@@ -29,7 +27,7 @@ class UploadView(APIView):
             serializer.save()
             return Response(serializer.data, status=status.HTTP_200_OK)
         else:
-            return Response(data={'error': {'message': 'unable to process request'}},
+            return Response(serializer.errors,
                             status=status.HTTP_400_BAD_REQUEST)
 
 
