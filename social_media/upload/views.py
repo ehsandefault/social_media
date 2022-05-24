@@ -74,8 +74,8 @@ class PostView(APIView):
                 post.title = post_title
             post_content = request.data.get('content', None)
             if post_content:
-                post_content = post.content
-            post.content = post_content
+                post.content = post_content
+
             serializer = CreatePostSerializer(post, data=data)
             if serializer.is_valid():
                 serializer.save()
