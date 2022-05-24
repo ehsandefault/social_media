@@ -45,7 +45,7 @@ class PostView(APIView):
             return Response(data={'error': {'message': 'post was not found'}}, status=status.HTTP_404_NOT_FOUND)
 
     def delete(self, request, post_id):
-        try:
+        if Posts.objects.filter(pk=post_id).exists():
             post = Posts.objects.get(pk=post_id)
             if post.user != request.user:
                 return Response(data={'error': {'message': 'You are not allow to delete this post'}},
@@ -53,8 +53,7 @@ class PostView(APIView):
             post.delete()
             return Response(data={'message': 'post was deleted'}, status=status.HTTP_200_OK)
 
-        # in case the post was not found
-        except Posts.DoesNotExist:
+        else:
             return Response(data={'error': {'message': 'post was not found'}}, status=status.HTTP_404_NOT_FOUND)
 
     def put(self, request, post_id):
