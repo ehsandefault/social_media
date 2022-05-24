@@ -1,11 +1,10 @@
 from django.contrib import admin
 from django.urls import path, include
-from .views import PostView
+from .views import PostView, UploadView
 
 urlpatterns = [
-    path('upload/',PostView.as_view(),name='upload_post'),
-    path('edit/<post_id>',PostView.as_view(),name='edit_post'),
-    path('delete/<post_id>',PostView.as_view(),name='delete_post'),
-
+    path('upload/', UploadView.as_view(), name='upload_post'),
+    # this end point will update and delete and return single post corresponding to post id
+    path('post/<post_id>', PostView.as_view(), name='post'),
 
 ]
